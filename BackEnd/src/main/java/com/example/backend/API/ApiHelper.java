@@ -23,7 +23,7 @@ public class ApiHelper {
        return false;
    }
     @GetMapping("/checkUser")
-    public boolean createUser(@RequestBody String e){
+    public boolean tryCreateUser(@RequestBody String e){
         return userRep.findUserByEmail(e) == null;
     }
     

@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/FrontEnd.iml" filepath="$PROJECT_DIR$/FrontEnd.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/PrejetSemestriel22_23.iml" filepath="$PROJECT_DIR$/.idea/PrejetSemestriel22_23.iml" />
       <module fileurl="file://$PROJECT_DIR$/PythonScripts/PythonScripts.iml" filepath="$PROJECT_DIR$/PythonScripts/PythonScripts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PythonScripts/StockPricePrediction/StockPricePrediction.iml" filepath="$PROJECT_DIR$/PythonScripts/StockPricePrediction/StockPricePrediction.iml" />
       <module fileurl="file://$PROJECT_DIR$/PythonScripts/WebScrapper/WebScrapper.iml" filepath="$PROJECT_DIR$/PythonScripts/WebScrapper/WebScrapper.iml" />
     </modules>
   </component>
