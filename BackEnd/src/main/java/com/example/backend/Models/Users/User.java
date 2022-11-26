@@ -1,12 +1,15 @@
 package com.example.backend.Models.Users;
 
+import com.example.backend.Configurations.UserHistory;
+import com.example.backend.Operation.Operation;
 import com.example.backend.Security.PasswordSecurity;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 @Document(collection = "Users")
 public class User {
-
+    public UserHistory userHistory;
     public String firstName;
     public String lastName;
     @Id
@@ -20,6 +23,10 @@ public class User {
     }
     public String getPassword(){
         return decryptPassword();
+    }
+    public void addToHistory(Operation o){
+        this.userHistory.save(o);
+
     }
 
 

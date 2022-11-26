@@ -2,6 +2,7 @@ package com.example.backend.API;
 
 import com.example.backend.Configurations.UsersMongoRepo;
 import com.example.backend.Models.Users.User;
+import com.example.backend.Operation.Operation;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,5 +27,9 @@ public class ApiHelper {
     public boolean tryCreateUser(@RequestBody String e){
         return userRep.findUserByEmail(e) == null;
     }
-    
+    @PostMapping("/addToHistory")
+    public boolean addtoHistory(@RequestBody User u, Operation o){
+       u.addToHistory(o);
+       return true;
+    }
 }
