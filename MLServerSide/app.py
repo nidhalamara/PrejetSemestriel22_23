@@ -1,5 +1,7 @@
+
+
 import pandas as pd
-from flask import Flask
+from flask import Flask, request
 import requests
 import math
 import csv
@@ -11,27 +13,21 @@ import pandas_datareader as web
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/getprediction')
 def hello_world():
-    CSV_URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=IBM&interval=15min&slice=year1month1&apikey=AE9U2AN0HTR4WKEN'
-
+    company=request.args.get('company')
+    company=str(company)
+    # company='IBM'
+    # period=request.args.get('period')
+    CSV_URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol='+company+'&interval=15min&slice=year1month1&apikey=AE9U2AN0HTR4WKEN'
     with requests.Session() as s:
         download = s.get(CSV_URL)
         decoded_content = download.content.decode('utf-8')
         cr = csv.reader(decoded_content.splitlines(), delimiter=',')
-        # my_list = list(cr)
 
     df=pd.DataFrame(list(cr))
-    # df = web.DataReader('AAPL', data_source='yahoo', start='2012-01-01', end='2022-11-19')
-    # df=decoded_content
-    # df=df.iloc[1:,:]
-    # df=open("df","r")
     df = df[1:]
-    print(df)
-
     data = df.filter([4])
-    print(data)
-    print('okokoko')
     dataset = data.values
     training_data_len = math.ceil( len (dataset)* .8)
     scaler = MinMaxScaler(feature_range=(0,1))
@@ -70,17 +66,23 @@ def hello_world():
     train= data[:training_data_len]
     valid = data[training_data_len:]
     valid['Predictions'] = predictions
-    print('validoooooo')
-    print(valid)
-    #same work here as above , shit!
-    apple_quote= web.DataReader('AAPL', data_source='yahoo', start='2012-01-01', end='2022-11-19')
-    new_df= apple_quote.filter (['Close'])
+
+    CSV_URL1 = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol='+company+'&interval=15min&slice=year1month1&apikey=AE9U2AN0HTR4WKEN'
+    with requests.Session() as s:
+        download = s.get(CSV_URL1)
+        decoded_content = download.content.decode('utf-8')
+        cr = csv.reader(decoded_content.splitlines(), delimiter=',')
+
+    new_df=pd.DataFrame(list(cr))
+    new_df = new_df.filter([4])
     last_60_days = new_df[-60:].values
     last_60_days_scaled= scaler.transform(last_60_days)
     X_test= []
     X_test.append(last_60_days_scaled)
     X_test= np.array(X_test)
     X_test= np.reshape (X_test, (X_test.shape[0], X_test.shape[1], 1))
+    print('le jhsd  ')
+    print(X_test)
     pred_price= model.predict(X_test)
     pred_price= scaler.inverse_transform(pred_price)
     print(pred_price)
