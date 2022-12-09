@@ -17,8 +17,6 @@ app = Flask(__name__)
 def hello_world():
     company=request.args.get('company')
     company=str(company)
-    # company='IBM'
-    # period=request.args.get('period')
     CSV_URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol='+company+'&interval=15min&slice=year1month1&apikey=AE9U2AN0HTR4WKEN'
     with requests.Session() as s:
         download = s.get(CSV_URL)
@@ -81,13 +79,10 @@ def hello_world():
     X_test.append(last_60_days_scaled)
     X_test= np.array(X_test)
     X_test= np.reshape (X_test, (X_test.shape[0], X_test.shape[1], 1))
-    print('le jhsd  ')
-    print(X_test)
     pred_price= model.predict(X_test)
     pred_price= scaler.inverse_transform(pred_price)
     print(pred_price)
 
-    print('apple_quote2['']')
     return str(pred_price)
 
 
